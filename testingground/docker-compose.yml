@@ -1,23 +1,23 @@
 version: "3.8"
 
 services:
-  # mariadb:
-  #   env_file: ./.env
-  #   build:
-  #     context: ./requirements/mariadb
-  #     dockerfile: Dockerfile
-  #   expose: 
-  #     - 3306
-  #   volumes:
-  #     - wordpress_data:/var/www/html
-  #   restart: unless-stopped
-  #   tty: true
-  #   networks:
-  #     - network
+  mariadb:
+    env_file: ./.env
+    build:
+      context: ./requirements/mariadb
+      dockerfile: Dockerfile
+    expose: 
+      - 3306
+    volumes:
+      - wordpress_data:/var/www/html
+    restart: unless-stopped
+    tty: true
+    networks:
+      - network
 
   wordpress:
-    # depends_on: 
-    #   - mariadb
+    depends_on: 
+      - mariadb
     env_file: ./.env
     build:
       context: ./requirements/wordpress

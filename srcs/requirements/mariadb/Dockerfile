@@ -1,19 +1,24 @@
 FROM debian:bookworm
 
-# create working directory
-RUN mkdir -p /mariadb
-WORKDIR /mariadb
-
 # install mariadb
-RUN	apt update && apt install -y mariadb-server
+RUN	apt update && \
+	apt install -y mariadb-server \
+	mariadb-client \
+	vim && \
+	rm-rf /va/lib/apt/lists/*
+
+RUN mkdir -p /var/run/mysqld && \
+	chown -R mysql:mysql var/run/mysqld && \
+	chmod 777 /var/run/mysql
 
 EXPOSE 3306
 
-# define metadata
-LABEL vesrion="1.0"
-LABEL description="MariaDB Server"
+COPY ./tools/mariadb.sh /usr/local/bin/
+COPY ./conf/wordpress.sql /usr/local/bin/
 
-HEALTHCHECK --start-period=5m \
-	CMD mariadb -e 'SELECT @@datadir;' || exit 1
+RUN chmod +x /usr/local/bin/mariadb.sh &&\
+	chmod +x /usr/local/bin/wordpress.sql
 
-CMD ["mariadb"]
+ENTRYPOINT ["/usr/local/bin/mariadb.sh"]
+
+CMD ["mysqld", "--bindaddress=0.0.0.0"]
