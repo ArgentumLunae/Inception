@@ -2,9 +2,7 @@ FROM debian:bookworm
 
 RUN	apt-get update && \
 	apt-get install -y \
-	wget curl php php-fpm php-phar
-
-RUN 
+	wget curl php php-fpm php-phar 
 
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
 	chmod +x wp-cli.phar && \
@@ -16,9 +14,9 @@ COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/
 
 RUN mkdir -p /run/php
 
-COPY ./tools/buildWP.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/buildWP.sh
-ENTRYPOINT ["usr/local/bin/builsWP.sh"]
+COPY ./tools/build_wordpress.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/build_wordpress.sh
+ENTRYPOINT ["usr/local/bin/build_wordpress.sh"]
 
 EXPOSE 9000
 
