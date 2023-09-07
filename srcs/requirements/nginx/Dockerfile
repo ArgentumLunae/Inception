@@ -1,12 +1,16 @@
-FROM debian:bookworm-slim
+FROM debian:bookworm
 
-RUN apt-get update
-RUN apt-get upgrade
-RUN apt-get install -y nginx
+RUN apt-get update && apt-get install -y nginx openssl
 
-COPY ./conf/nginx.conf /etc/nginx/conf.d
+# COPY ./index.nginx-debian.html /var/www/html
 
-RUN mkdir -p /run/nginx
+RUN mkdir -p /etc/nginx/ssl && \
+	openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+	-keyout /etc/nginx/ssl/mteerlin.key \
+	-out /etc/nginx/ssl/mteerlin.crt \
+	-subj "/C=NL/ST=Noord Holland/L=Amsterdam/O=Codam Coding College/OU=mteerlin/CN=mteerlin.codam.nl"
+
+COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 443
 

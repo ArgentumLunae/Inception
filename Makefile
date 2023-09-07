@@ -8,7 +8,8 @@ down:
 	docker compose -f srcs/docker-compose.yml down
 
 vol:
-	mkdir -p /Users/mteerlin/data/wordpress/
+	mkdir -p /home/mteerlin/data/wordpress/
+	mkdir -p /home/mteerlin/data/mariadb/
 
 clean:
 	docker stop $$(docker ps -qa);\

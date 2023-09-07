@@ -53,11 +53,11 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /Users/mteerlin/data/wordpress/
+      device: /home/mteerlin/data/wordpress/
 
   db-volume:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /Users/mteerlin/data/mariadb/
+      device: /home/mteerlin/data/mariadb/
