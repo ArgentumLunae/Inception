@@ -1,3 +1,5 @@
+#!/bin/bash
+
 FROM debian:bookworm
 
 RUN	apt-get update && \
@@ -14,9 +16,9 @@ COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/
 
 RUN mkdir -p /run/php
 
-COPY ./tools/build_wordpress.sh /usr/local/bin/
+COPY ./tools/build_wordpress.sh /usr/local/bin/build_wordpress.sh
 RUN chmod +x /usr/local/bin/build_wordpress.sh
-ENTRYPOINT ["usr/local/bin/build_wordpress.sh"]
+ENTRYPOINT ["/usr/local/bin/build_wordpress.sh"]
 
 EXPOSE 9000
 

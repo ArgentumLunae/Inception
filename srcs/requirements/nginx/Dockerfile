@@ -2,7 +2,7 @@ FROM debian:bookworm
 
 RUN apt-get update && apt-get install -y nginx openssl
 
-# COPY ./index.nginx-debian.html /var/www/html
+COPY ./index.html /var/www/html
 
 RUN mkdir -p /etc/nginx/ssl && \
 	openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
@@ -12,6 +12,6 @@ RUN mkdir -p /etc/nginx/ssl && \
 
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 
-EXPOSE 443
+EXPOSE 4242
 
 CMD ["nginx", "-g", "daemon off;"]

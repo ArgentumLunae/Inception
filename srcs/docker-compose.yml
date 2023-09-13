@@ -9,7 +9,9 @@ services:
     volumes:
       - db-volume:/var/www/html
     restart: unless-stopped
+    stdin_open: true
     tty: true
+    init: true
     networks:
       - inception-network
 
@@ -38,7 +40,7 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     ports:
-      - "443:443"
+      - "4242:4242"
     tty: true
     networks:
       - inception-network
