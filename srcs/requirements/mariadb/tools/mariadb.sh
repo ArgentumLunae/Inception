@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [-f "var/lib/mysql/$WP_DATABASE_NAME"]
+if [ -f "var/lib/mysql/$WP_DATABASE_NAME" ]
 then
 	echo "Database good and ready."
 else

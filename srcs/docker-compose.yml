@@ -1,21 +1,26 @@
-version: "3.8"
+version: "3"
 
 services:
   mariadb:
-    env_file: .env
+    container_name: mariadb
     build:
-      context: ./requirements/mariadb
+      context: requirements/mariadb
       dockerfile: Dockerfile
-    volumes:
-      - db-volume:/var/www/html
     restart: unless-stopped
-    stdin_open: true
     tty: true
-    init: true
+    stdin_open: true
     networks:
       - inception-network
+    volumes:
+      - db-volume:/var/www/html
+    init: true
+    env_file: .env
+    # environment: 
+    #   MYSQL_DATABASE: wordpress
+    
 
   wordpress:
+    container_name: wordpress
     depends_on: 
       - mariadb
     env_file: .env
@@ -30,10 +35,10 @@ services:
       - inception-network
 
   nginx:
+    container_name: nginx
     depends_on:
       - mariadb
       - wordpress
-    container_name: nginx
     env_file: .env
     build:
       context: ./requirements/nginx
