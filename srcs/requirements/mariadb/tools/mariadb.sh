@@ -4,12 +4,14 @@ if [ -f "var/lib/mysql/$WP_DATABASE_NAME" ]
 then
 	echo "Database good and ready."
 else
-# mariadb-install-db --user=mysql --datadir=/var/lib/mysql
+mariadb-install-db --user=mysql --datadir=/var/lib/mysql
 
-# chown -R mysql /var/lib/mysql
+/etc/init.d/mysql start
 
-# nohup /usr/bin/mariadb-safe --user=root --datadir=/var/lib/mysql > /dev/null &
-# bg_pid=$!
+chown -R mysql /var/lib/mysql
+
+nohup /usr/bin/mariadbd-safe --user=root --datadir=/var/lib/mysql > /dev/null &
+bg_pid=$!
 
 sleep 5
 
@@ -25,9 +27,10 @@ Y
 Y
 END
 
+echo "mysql finished installing"
 sleep 5
 
-echo "GRANT ALL ON *.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD'; FLUSH PRIVILEGES;" | mysql -uroot
+echo "GRANT ALL ON *.* TO '$MYSQL_ADMIN_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD'; FLUSH PRIVILEGES;" | mysql -uroot
 
 kill $bg_pid
 

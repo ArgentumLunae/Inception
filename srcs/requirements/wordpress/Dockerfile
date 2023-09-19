@@ -4,22 +4,27 @@ FROM debian:bookworm
 
 RUN	apt-get update && \
 	apt-get install -y \
-	wget curl php php-fpm php-phar 
+	wget curl bash php php-cgi php-fpm php-phar php-mysql php-pdo php-gd php-cli php-mbstring vim mariadb-server mariadb-client
+
+# RUN mkdir -p /home/mteerlin/Documents/data/wordpress/ \
+# 	&& chmod 777 /home/mteerlin/Documents/data/wordpress/
 
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
 	chmod +x wp-cli.phar && \
-	mv wp-cli.phar /usr/local/bin/wp-cli
+	mv wp-cli.phar /usr/local/bin/wp  
+									#-cli
 
-WORKDIR /var/www/html
 
 COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/
 
-RUN mkdir -p /run/php
+RUN mkdir -p /var/www/html && mkdir -p /run/php
 
-COPY ./tools/build_wordpress.sh /usr/local/bin/build_wordpress.sh
-RUN chmod +x /usr/local/bin/build_wordpress.sh
-ENTRYPOINT ["/usr/local/bin/build_wordpress.sh"]
+COPY --chmod=755 ./tools/build_wordpress.sh /usr/local/bin/build_wordpress.sh
+# ENTRYPOINT ["/usr/local/bin/build_wordpress.sh"]
+
+WORKDIR /var/www/html
 
 EXPOSE 9000
 
-CMD ["/usr/sbin/php-fpm7.3", "-F"]
+CMD ["/bin/bash", "/usr/local/bin/build_wordpress.sh", "--allow-root"]
+# CMD ["/usr/sbin/php-fpm7.3", "-F"]
