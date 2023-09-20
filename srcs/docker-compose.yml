@@ -1,6 +1,22 @@
 version: "3"
 
 services:
+  nginx:
+    container_name: nginx
+    depends_on:
+      - mariadb
+      - wordpress
+    env_file: .env
+    build:
+      context: ./requirements/nginx
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "443:443"
+    tty: true
+    networks:
+      - inception-network
+
   mariadb:
     container_name: mariadb
     build:
@@ -15,9 +31,6 @@ services:
       - db-volume:/var/www/html
     init: true
     env_file: .env
-    # environment: 
-    #   MYSQL_DATABASE: wordpress
-    
 
   wordpress:
     container_name: wordpress
@@ -34,21 +47,6 @@ services:
     networks:
       - inception-network
 
-  nginx:
-    container_name: nginx
-    depends_on:
-      - mariadb
-      - wordpress
-    env_file: .env
-    build:
-      context: ./requirements/nginx
-      dockerfile: Dockerfile
-    restart: unless-stopped
-    ports:
-      - "4242:4242"
-    tty: true
-    networks:
-      - inception-network
 
 networks:
   inception-network:

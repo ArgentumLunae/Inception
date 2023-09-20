@@ -1,22 +1,14 @@
 
-all: down vol up
+all: down up
 
 up:
-	sudo docker compose -f srcs/docker-compose.yml up --build -d --remove-orphans --force-recreate
+	docker compose -f srcs/docker-compose.yml up --build -d --remove-orphans --force-recreate --timeout 1300
 
 down:
 	sudo docker compose -f srcs/docker-compose.yml down
 
-vol:
-	mkdir -p /home/mteerlin/data/wordpress/
-	mkdir -p /home/mteerlin/data/mariadb/
-
-clean:
-	sudo docker stop $$(docker ps -qa);\
-	sudo docker rm $$(docker ps -qa);\
-	sudo docker rmi -f $$(docker images -qa);\
-	sudo docker volume rm $$(docker volume ls -q);\
-	sudo docker network rm $$(docker network ls -q);
+clean: down
+	docker system prune	-f --all --volumes
 
 re:
 	clean

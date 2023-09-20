@@ -3,23 +3,24 @@
 FROM debian:bookworm
 
 # install mariadb
-RUN	apt update && \
-	apt install -y mariadb-server \
+RUN	apt-get update \
+	&& apt-get install -y mariadb-server \
 	mariadb-client \
-	vim && \
-	rm -rf /va/lib/apt/lists/*
+	vim  procps\
+	&& rm -rf /va/lib/apt/lists/*
 
-RUN mkdir -p /var/run/mysqld && \
-	chown -R mysql:mysql var/run/mysqld && \
-	chmod 777 /var/run/mysqld
+RUN mkdir -m 777 -p /home/mteerlin/data/mariadb/ \
+	&& chmod 755 /home/mteerlin/data/mariadb/
 
-EXPOSE 3306
+# EXPOSE 3306
+
+RUN mkdir -m 777 -p /var/run/mysqld && \
+	chown -R mysql:mysql var/run/mysqld
+
 
 COPY ./tools/mariadb.sh /usr/local/bin/mariadb.sh
-# COPY ./conf/wordpress.sql /usr/local/bin/
 
 RUN chmod +x /usr/local/bin/mariadb.sh
-	#chmod +x /usr/local/bin/wordpress.sql
 
 ENTRYPOINT ["/usr/local/bin/mariadb.sh"]
 
