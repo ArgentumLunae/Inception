@@ -3,13 +3,13 @@
 FROM debian:bookworm
 
 RUN	apt-get update \
-	&& apt-get install -y \
-	wget curl bash php php-cgi php-fpm php-phar \
-	php-mysql php-pdo php-gd php-cli php-mbstring \
+	&& apt-get install -y wget curl bash \
+	php php-cgi php-fpm php-phar php-mysql \
+	php-pdo php-gd php-cli php-mbstring \
 	vim mariadb-server mariadb-client
 
-RUN mkdir -p /home/mteerlin/data/wordpress/ \
-	&& chmod 755 /home/mteerlin/data/wordpress/
+RUN mkdir -p /home/mteerlin/data/wordpress/
+RUN chmod 755 /home/mteerlin/data/wordpress/
 
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \ 
 	&& chmod +x wp-cli.phar \

@@ -3,16 +3,17 @@ version: "3"
 services:
   nginx:
     container_name: nginx
-    depends_on:
-      - mariadb
-      - wordpress
-    env_file: .env
     build:
       context: ./requirements/nginx
       dockerfile: Dockerfile
-    restart: unless-stopped
     ports:
-      - "443:443"
+      - "4242:4242"
+    depends_on:
+      - mariadb
+      - wordpress
+    restart: unless-stopped
+    # volumes:
+    #   - wordpress-volume:/var/www/html/
     tty: true
     networks:
       - inception-network
@@ -28,7 +29,7 @@ services:
     networks:
       - inception-network
     volumes:
-      - db-volume:/var/www/html
+      - db-volume:/var/lib/mysql
     init: true
     env_file: .env
 
@@ -41,7 +42,7 @@ services:
       context: ./requirements/wordpress
       dockerfile: Dockerfile
     volumes:
-      - wordpress-volume:/var/www/html
+      - wordpress-volume:/var/www/html/
     restart: unless-stopped
     tty: true
     networks:
@@ -57,12 +58,12 @@ volumes:
     driver: local
     driver_opts:
       type: none
+      device: /home/mteerlin/data/wordpress/data
       o: bind
-      device: /home/mteerlin/data/wordpress/
 
   db-volume:
     driver: local
     driver_opts:
       type: none
+      device: /home/mteerlin/data/mysql/data
       o: bind
-      device: /home/mteerlin/data/mariadb/

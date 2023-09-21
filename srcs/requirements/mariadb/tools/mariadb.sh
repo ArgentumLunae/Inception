@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ -f "var/lib/mysql/$WP_DATABASE" ]
+if [ -f "var/lib/mysql/$MYSQL_DATABASE" ]
 then
 	echo "Database good and ready."
 else
@@ -28,9 +28,9 @@ END
 echo "mysql finished installing"
 sleep 5
 
-# echo "GRANT ALL ON *.* TO '$MYSQL_ADMIN_USER'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD'; FLUSH PRIVILEGES;" | mysql -uroot
+# echo "GRANT ALL ON *.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD'; FLUSH PRIVILEGES;" | mysql -uroot
 
-echo "CREATE DATABASE IF NOT EXISTS $WP_DATABASE; GRANT ALL ON $WP_DATABASE.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_ADMIN_PASSWORD'; FLUSH PRIVILEGES;" | mysql -uroot
+echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE; GRANT ALL ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD'; FLUSH PRIVILEGES;" | mysql -uroot
 
 kill $bg_pid
 
