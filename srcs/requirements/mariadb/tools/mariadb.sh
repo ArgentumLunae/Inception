@@ -1,12 +1,13 @@
 #!/bin/bash
 
+mariadb-install-db
+/etc/init.d/mysql start
+
 if [ -f "var/lib/mysql/$MYSQL_DATABASE" ]
 then
 	echo "Database good and ready."
 else
-mariadb-install-db
 
-# /etc/init.d/mysql start
 
 # chown -R mysql /var/lib/mysql
 
@@ -26,15 +27,12 @@ Y
 END
 
 echo "mysql finished installing"
-sleep 5
 
 # echo "GRANT ALL ON *.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD'; FLUSH PRIVILEGES;" | mysql -uroot
-
+echo "attempting to create database with user"
 echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE; GRANT ALL ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD'; FLUSH PRIVILEGES;" | mysql -uroot
 
 kill $bg_pid
-
-sleep 2
 
 fi
 

@@ -12,8 +12,6 @@ services:
       - mariadb
       - wordpress
     restart: unless-stopped
-    # volumes:
-    #   - wordpress-volume:/var/www/html/
     tty: true
     networks:
       - inception-network
@@ -26,6 +24,8 @@ services:
     restart: unless-stopped
     tty: true
     stdin_open: true
+    # expose:
+    #   - 3306
     networks:
       - inception-network
     volumes:
@@ -45,6 +45,8 @@ services:
       - wordpress-volume:/var/www/html/
     restart: unless-stopped
     tty: true
+    # expose:
+    #   - 9000
     networks:
       - inception-network
 
@@ -58,12 +60,12 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/mteerlin/data/wordpress/data
+      device: /home/mteerlin/goinfre/data3/wordpress/data
       o: bind
 
   db-volume:
     driver: local
     driver_opts:
       type: none
-      device: /home/mteerlin/data/mysql/data
+      device: /home/mteerlin/goinfre/data3/mysql/data
       o: bind

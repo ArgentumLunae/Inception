@@ -8,9 +8,6 @@ RUN	apt-get update \
 	php-pdo php-gd php-cli php-mbstring \
 	vim mariadb-server mariadb-client
 
-RUN mkdir -p /home/mteerlin/data/wordpress/
-RUN chmod 755 /home/mteerlin/data/wordpress/
-
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \ 
 	&& chmod +x wp-cli.phar \
 	&& mv wp-cli.phar /usr/local/bin/wp  

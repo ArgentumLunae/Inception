@@ -9,9 +9,6 @@ RUN	apt-get update \
 	vim  procps\
 	&& rm -rf /va/lib/apt/lists/*
 
-RUN mkdir -p /home/mteerlin/data/mariadb/
-RUN chmod 755 /home/mteerlin/data/mariadb/
-
 EXPOSE 3306
 
 RUN mkdir -m 777 -p /var/run/mysqld && \
