@@ -7,7 +7,7 @@ services:
       context: ./requirements/nginx
       dockerfile: Dockerfile
     ports:
-      - "4242:4242"
+      - "4242:443"
     depends_on:
       - mariadb
       - wordpress
@@ -15,6 +15,8 @@ services:
     tty: true
     networks:
       - inception-network
+    volumes:
+      - db-volume:/var/lib/mysql
 
   mariadb:
     container_name: mariadb
@@ -25,7 +27,7 @@ services:
     tty: true
     stdin_open: true
     # expose:
-    #   - 3306
+    #   - "3306"
     networks:
       - inception-network
     volumes:
@@ -46,7 +48,7 @@ services:
     restart: unless-stopped
     tty: true
     # expose:
-    #   - 9000
+    #   - "9000"
     networks:
       - inception-network
 
@@ -60,12 +62,12 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/mteerlin/goinfre/data3/wordpress/data
+      device: /home/mteerlin/goinfre/data7/wordpress/data
       o: bind
 
   db-volume:
     driver: local
     driver_opts:
       type: none
-      device: /home/mteerlin/goinfre/data3/mysql/data
+      device: /home/mteerlin/goinfre/data7/mysql/data
       o: bind
