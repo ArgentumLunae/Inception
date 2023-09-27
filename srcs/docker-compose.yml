@@ -2,7 +2,7 @@ version: "3"
 
 services:
   nginx:
-    container_name: nginx
+    container_name: nginx-container
     build:
       context: ./requirements/nginx
       dockerfile: Dockerfile
@@ -19,7 +19,7 @@ services:
       - db-volume:/var/lib/mysql
 
   mariadb:
-    container_name: mariadb
+    container_name: mariadb-container
     build:
       context: requirements/mariadb
       dockerfile: Dockerfile
@@ -36,7 +36,7 @@ services:
     env_file: .env
 
   wordpress:
-    container_name: wordpress
+    container_name: wordpress-container
     depends_on: 
       - mariadb
     env_file: .env
@@ -62,12 +62,12 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/mteerlin/goinfre/data7/wordpress/data
+      device: /home/mteerlin/goinfre/data10/wordpress/data
       o: bind
 
   db-volume:
     driver: local
     driver_opts:
       type: none
-      device: /home/mteerlin/goinfre/data7/mysql/data
+      device: /home/mteerlin/goinfre/data10/mysql/data
       o: bind

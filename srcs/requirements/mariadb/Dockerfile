@@ -11,9 +11,12 @@ RUN	apt-get update \
 
 EXPOSE 3306
 
-RUN mkdir -m 777 -p /var/run/mysqld && \
-	chown -R mysql:mysql var/run/mysqld
+RUN rm -f /etc/my.cnf ~/.my.cnf
+COPY conf/mysql.conf ~/.my.cnf
 
+RUN mkdir -p /var/run/mysqld 
+RUN chown -R mysql:mysql /var/run/mysqld \
+	&& chmod 777 /var/run/mysqld
 
 COPY ./tools/mariadb.sh /usr/local/bin/mariadb.sh
 
