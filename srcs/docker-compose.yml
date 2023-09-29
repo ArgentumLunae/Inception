@@ -60,12 +60,12 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/mteerlin/goinfre/data3/wordpress/data
+      device: /home/argentumlunae/data/wordpress/data
       o: bind
 
   db-volume:
     driver: local
     driver_opts:
       type: none
-      device: /home/mteerlin/goinfre/data3/mysql/data
+      device: /home/argentumlunae/data/mysql/data
       o: bind
