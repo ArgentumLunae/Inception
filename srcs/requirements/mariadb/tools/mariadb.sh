@@ -1,42 +1,60 @@
 #!/bin/bash
 
-mariadb-install-db
-/etc/init.d/mysql start
+mysql_install_db
+/etc/init.d/mariadb start
+
 
 if [ -f "var/lib/mysql/$MYSQL_DATABASE" ]
 then
 	echo "Database good and ready."
 else
 
+# sudo mariadb-secure-installation <<END
 
-# chown -R mysql /var/lib/mysql
+# Y
+# $MYSQL_ROOT_PASSWORD
+# $MYSQL_ROOT_PASSWORD
+# Y
+# n
+# Y
+# Y
+# END
 
-# nohup /usr/bin/mariadbd-safe --user=root --datadir=/var/lib/mysql > /dev/null &
-# bg_pid=$!
+cat << END > /usr/local/bin/mariadb_install.expect
+#!/usr/lib/expect
 
-echo "installing mysql"
-mysql_secure_installation <<END
-
-Y
-$MYSQL_ROOT_PASSWORD
-$MYSQL_ROOT_PASSWORD
-Y
-n
-Y
-Y
+spawn sudo mariadb-secure-installation
+expect "Enter current password for root (enter for none):"
+send "\r"
+expect "Switch to unix_socket authentication \[Y/n\]"
+send "n\r"
+expect "Set root password? \[Y/n\]"
+send "Y\r"
+expect "New password:"
+send "$MYSQL_ROOT_PASSWORD\r"
+expect "Re-enter new password:"
+send "$MYSQL_ROOT_PASSWORD\r"
+expect "Remove anonymous users? \[Y/n\]"
+send "Y\r"
+expect "Disallow root login remotely? \[Y/n\]"
+send "n\r"
+expect "Remove test database and access to it? \[Y/n\]"
+send "Y\r"
+expect "Reload privilege tables now? \[Y/n\]"
+send "Y\r"
+expect eof
 END
 
-echo "mysql finished installing"
+chmod +x /usr/local/bin/mariadb_install.expect
 
-# echo "GRANT ALL ON *.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD'; FLUSH PRIVILEGES;" | mysql -uroot
+expect /usr/local/bin/mariadb_install.expect
+
 echo "attempting to create database with user"
-echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE; GRANT ALL ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD'; FLUSH PRIVILEGES;" | mysql -uroot
-
-kill $bg_pid
+echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE; GRANT ALL ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD'; FLUSH PRIVILEGES;" | sudo mysql -uroot
 
 fi
 
-/etc/init.d/mysql stop
+/etc/init.d/mariadb stop
 
 exec "$@"
 
