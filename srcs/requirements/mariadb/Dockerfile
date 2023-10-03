@@ -6,7 +6,7 @@ FROM debian:bookworm
 RUN	apt-get update \
 	&& apt-get install -y mariadb-server \
 	mariadb-client \
-	vim sudo expect\
+	vim curl sudo expect\
 	&& rm -rf /va/lib/apt/lists/*
 
 EXPOSE 3306

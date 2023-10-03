@@ -49,8 +49,9 @@ chmod +x /usr/local/bin/mariadb_install.expect
 
 expect /usr/local/bin/mariadb_install.expect
 
-echo "attempting to create database with user"
-echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE; GRANT ALL ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD'; FLUSH PRIVILEGES;" | sudo mysql -uroot
+# echo "attempting to create database with user"
+echo "GRANT ALL ON *.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD'; FLUSH PRIVILEGES;" | sudo mysql -uroot
+# echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE; GRANT ALL ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD'; FLUSH PRIVILEGES;" | sudo mysql -uroot
 
 fi
 
