@@ -9,17 +9,6 @@ then
 	echo "Database good and ready."
 else
 
-# sudo mariadb-secure-installation <<END
-
-# Y
-# $MYSQL_ROOT_PASSWORD
-# $MYSQL_ROOT_PASSWORD
-# Y
-# n
-# Y
-# Y
-# END
-
 cat << END > /usr/local/bin/mariadb_install.expect
 #!/usr/lib/expect
 

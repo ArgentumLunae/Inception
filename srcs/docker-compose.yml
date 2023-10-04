@@ -16,7 +16,8 @@ services:
     networks:
       - inception-network
     volumes:
-      - db-volume:/var/lib/mysql
+      - wordpress-volume:/var/www/html
+      # - db-volume:/var/lib/mysql
 
   mariadb:
     container_name: mariadb-container
