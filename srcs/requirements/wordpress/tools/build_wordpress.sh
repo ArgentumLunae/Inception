@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sleep 100
+sleep 50
 
 if [ -f ./download-complete ]; then
 	echo "wordpress already downloaded"
@@ -17,13 +17,13 @@ else
 	echo "config create"
 	wp config create --dbname=$MYSQL_DATABASE --dbuser=$MYSQL_USER --dbpass=$MYSQL_PASSWORD --dbhost=$MYSQL_HOST --allow-root --skip-check
 	echo "config created"
-	sleep 1
+	sleep 25
 	echo "db create"
 	sudo wp db create --allow-root
 	echo "db created"
 	sleep 1
 	echo "core install"
-    wp core install --url=https://mteerlin.42.fr --title="WP-CLI" --admin_user=$WP_ADMIN_USER --admin_password=$WP_ADMIN_PASSWORD --admin_email=$WP_ADMIN_EMAIL --allow-root
+    wp core install --path="/var/www/html" --url=https://mteerlin.42.fr --title="WELCOME TO MY WORDPRESS CONTAINER" --admin_user=$WP_ADMIN_USER --admin_password=$WP_ADMIN_PASSWORD --admin_email=$WP_ADMIN_EMAIL --allow-root
 	echo "core installed"
 	sleep 1
     
@@ -34,7 +34,7 @@ else
 
 	#modify permissions securely on wp-config.php
 	echo "permissions"
-    chmod 600 wp-config.php
+    chmod 644 wp-config.php
 	echo "permissioned"
 fi
 

@@ -10,8 +10,21 @@ down:
 clean: down
 	docker system prune	-f --all --volumes
 
-re:
-	make clean
+fclean: clean
+	docker volume rm srcs_db-volume
+	docker volume rm srcs_wordpress-volume
+	rm -rf /home/mteerlin/data/mysql
+	rm -rf /home/mteerlin/data/wordpress
+
+# docker-setup:
+# 	sh setup/dockersetup.sh
+
+setup:
+	$(if $(shell grep "mteerlin.42.fr" /etc/hosts), echo "Domain already hosted", sudo sh -c 'sudo echo "127.0.0.1 mteerlin.42.fr" >> /etc/hosts')
+	mkdir -p /home/mteerlin/data/mysql
+	mkdir -p /home/mteerlin/data/wordpress
+
+re:	fclean
 	make
 
-.PHONY: all up down clean re
+.PHONY: all up down clean fclean docker-setup setup re
