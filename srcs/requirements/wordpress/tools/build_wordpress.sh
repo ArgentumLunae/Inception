@@ -23,13 +23,13 @@ else
 	echo "db created"
 	sleep 1
 	echo "core install"
-    wp core install --path="/var/www/html" --url=https://mteerlin.42.fr --title="WELCOME TO MY WORDPRESS CONTAINER" --admin_user=$WP_ADMIN_USER --admin_password=$WP_ADMIN_PASSWORD --admin_email=$WP_ADMIN_EMAIL --allow-root
+    wp core install --path="/var/www/html" --url=https://mteerlin.42.fr --title="WELCOME TO MY WORDPRESS CONTAINER" --admin_user=$MYSQL_USER --admin_password=$MYSQL_PASSWORD --admin_email=$MYSQL_EMAIL --allow-root
 	echo "core installed"
 	sleep 1
     
 	# create another user who has enough permission to post/edit/delete (role = editor)
 	echo "user create"
-    wp user create $MYSQL_USER $MYSQL_EMAIL --user_pass=$MYSQL_PASSWORD --role=editor --allow-root
+    wp user create $WP_USER $WP_EMAIL --user_pass=$WP_PASSWORD --role=author --allow-root
 	echo "user created"
 
 	#modify permissions securely on wp-config.php
